@@ -1,0 +1,1 @@
+Primera Practica del Curso de Mecanica de Medios Continuos, trabajndo con datos y creando graficas con NCL.
