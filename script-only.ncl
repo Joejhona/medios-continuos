@@ -14,31 +14,39 @@ fecha   = f_csv(1:,0)
 date    = ispan(0,dimsizes(fecha)-1,1)*15
 date@units = "minutes since 2015-01-01 00:00"
 ;¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
-;----- Grafica de Temperatura
+;----- Graficas
 temp        = tofloat(f_csv(1:,2))
 hr          = tofloat(f_csv(1:,3))
 w_speed     = tofloat(f_csv(1:,4))
 w_direc     = tofloat(f_csv(1:,5))
 solar_r     = tofloat(f_csv(1:,6))
+titulos     = (/"Temperatura","Humedad Relativa","Velocidad del Viento","Direccion del Viento","Radiacion Solar"/)
+unidades    = (/"~S~o~N~C","%","m/s","Grados","w/m2"/)
+i           = 0
+dy          = temp
+;dy          = hr
+;dy          = w_speed
+;dy          = w_direc
+;dy          = solar_r
 ;¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
 ;----- Alistando dataframe
-;type        = "png"
-type        = "x11"
-wks         = gsn_open_wks(type,"prueba")
+type        = "png"
+;type        = "x11"
+titulo      = titulos(i)
+wks         = gsn_open_wks(type,titulo+" Isla Soto")
 ;¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬
 ;----- Detalle del Frame
 resplot                     = True
-resplot@tiMainString        = "Temperatura vs Fecha-hora"
+resplot@tiMainString        = "Datos Meteorologicos ~C~~Z50~ Estacion Isla de Soto - Lago Titicaca"
 resplot@vpHeightF           = 0.4
 resplot@vpWidthF            = 0.8
-;resplot@tmXBMode            = "Manual"
-;resplot@tmXBTickSpacingF    = 1000000.
 resplot@tmXBLabelAngleF     = 90. ;-- rotate x-axis labels
-resplot@gsnLeftString       = "~S~o~N~C"
-resplot@tiYAxisString       = "Temperatura"
+resplot@gsnLeftString       = unidades(i)
+resplot@tiYAxisString       = titulo
 resplot@xyMarkLineModes     = "Markers"
 resplot@xyMarkers           = 1
 resplot@xyMarkerColors      = "blue"
+resplot@tiXAxisString       = "mes/dia hora" 
 
 restick                     = True
 restick@ttmFormat           = "%N/%D %H:%M"
@@ -46,6 +54,6 @@ restick@ttmMajorStride      = 2500
 
 time_axis_labels(date,resplot,restick) ; call the formatting procedure
 
-plot = gsn_csm_xy(wks,date,temp,resplot)
+plot = gsn_csm_xy(wks,date,dy,resplot)
 
 end
